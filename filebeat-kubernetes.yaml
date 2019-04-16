@@ -91,12 +91,11 @@ data:
     cloud.id: ${ELASTIC_CLOUD_ID}
 
     output.elasticsearch:
-      hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
+      hosts: ${ELASTICSEARCH_HOSTS}
       username: ${ELASTICSEARCH_USERNAME}
       password: ${ELASTICSEARCH_PASSWORD}
     setup.kibana:
-      host: '${KIBANA_HOST:kibana}'
-      port: 5601
+      host: ${KIBANA_HOST}
     
 ---
 apiVersion: extensions/v1beta1
@@ -118,7 +117,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
       - name: filebeat-dynamic
-        image: docker.elastic.co/beats/filebeat:7.0.0
+        image: docker.elastic.co/beats/filebeat:6.7.1
         imagePullPolicy: Always
         args: [
           "-c", "/etc/filebeat.yml",
@@ -137,17 +136,17 @@ spec:
               name: dynamic-logging
               key: ELASTIC_CLOUD_AUTH
               optional: true
-        - name: ELASTICSEARCH_HOST
+        - name: ELASTICSEARCH_HOSTS
           valueFrom:
             secretKeyRef:
               name: dynamic-logging
-              key: ELASTICSEARCH_HOST
+              key: ELASTICSEARCH_HOSTS
               optional: true
-        - name: ELASTICSEARCH_PORT
+        - name: KIBANA_HOST
           valueFrom:
             secretKeyRef:
               name: dynamic-logging
-              key: ELASTICSEARCH_PORT
+              key: KIBANA_HOST
               optional: true
         - name: ELASTICSEARCH_USERNAME
           valueFrom:
