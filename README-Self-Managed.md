@@ -1,4 +1,11 @@
 ### Set the credentials
+There are four files to edit to create a k8s secret when you are connectign to self managed Elasticsearch and Kibana (self managed is effectively anything other than the managed Elasticsearch Service in Elastic Cloud).  The files are:
+
+1. ELASTICSEARCH_HOSTS
+1. ELASTICSEARCH_PASSWORD
+1. ELASTICSEARCH_USERNAME
+1. KIBANA_HOST
+
 Set these with the information for your Elasticsearch cluster and your Kibana host.  Here are some examples
 
 #### ELASTICSEARCH_HOSTS
@@ -6,28 +13,42 @@ Set these with the information for your Elasticsearch cluster and your Kibana ho
     ```
     ["http://elasticsearch-master.default.svc.cluster.local:9200"]
     ```
-1. foo 
+1. A single Elasticsearch node running on a Mac where your Beats are running in Docker for Mac: 
     ```
-    ["http://elasticsearch-master.default.svc.cluster.local:9200"]
+    ["http://host.docker.internal:9200"]
     ```
+1. Two Elasticsearch nodes running in VMs or on physical hardware:
+    ```
+    ["http://host1.example.com:9200", "http://host2.example.com:9200"]
+    ```
+
 
 #### ELASTICSEARCH_PASSWORD
-
+Just the password, no whitespace or quotes:
 ```
 changeme
 ```
 
 #### ELASTICSEARCH_USERNAME
-
+Just the username, no whitespace or quotes:
 ```
 elastic
 ```
 
 #### KIBANA_HOST
 
-```
-"http://kibana-kibana.default.svc.cluster.local:5601"
-```
+1. The Kibana instance from the Elastic Kibana Helm Chart: 
+    ```
+    "http://kibana-kibana.default.svc.cluster.local:5601"
+    ```
+1. A Kibana instance running on a Mac where your Beats are running in Docker for Mac: 
+    ```
+    "http://host.docker.internal:5601"
+    ```
+1. Two Elasticsearch nodes running in VMs or on physical hardware:
+    ```
+    "http://host1.example.com:5601"
+    ```
 
 ```
 vi ELASTICSEARCH_HOSTS
