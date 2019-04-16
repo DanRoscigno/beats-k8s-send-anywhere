@@ -33,15 +33,16 @@ cd examples/MonitoringKubernetes
 Set these with the values from the http://cloud.elastic.co deployment
 
 ```
-vi ELASTIC_PASSWORD
-vi CLOUD_ID
+vi ELASTIC_CLOUD_ID 
+vi ELASTIC_CLOUD_AUTH
 ```
 and create a secret in the Kubernetes system level namespace
 
 ```
 kubectl create secret generic dynamic-logging \
---from-file=./ELASTIC_PASSWORD --from-file=./CLOUD_ID \
---namespace=kube-system
+  --from-file=./ELASTIC_CLOUD_AUTH \
+  --from-file=./ELASTIC_CLOUD_ID \
+  --namespace=kube-system
 ```
 
 ### Check to see if kube-state-metrics is running
