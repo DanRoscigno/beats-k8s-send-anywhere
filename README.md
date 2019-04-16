@@ -1,0 +1,1 @@
+Working through configuration scenarios of Elastic Beats (filebeat, metricbeat, etc.) running in k8s and sending information to Elasticsearch and Kibana running a) in k8s via Helm Charts, b) in Elasticsearch Service in Elastic Cloud, c) in VMs
