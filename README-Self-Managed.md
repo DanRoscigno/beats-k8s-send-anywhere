@@ -1,9 +1,9 @@
 ### Set the credentials
 Set these with the information for your Elasticsearch cluster and your Kibana host.  Here are some examples
 
-  First Header  | Second Header
+  Description   | Sample
   ------------- | -------------
-  Content Cell  | Content Cell
+  A nodeGroup from the Elastic Elasticseach Helm Chart | ``` ["http://elasticsearch-master.default.svc.cluster.local:9200"] ```
   Content Cell  | Content Cell
 
 #### ELASTICSEARCH_HOSTS
