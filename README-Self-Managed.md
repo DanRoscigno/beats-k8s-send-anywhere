@@ -3,13 +3,13 @@ Set these with the information for your Elasticsearch cluster and your Kibana ho
 
 #### ELASTICSEARCH_HOSTS
 1. A nodeGroup from the Elastic Elasticseach Helm Chart: 
-
+    ```
     ["http://elasticsearch-master.default.svc.cluster.local:9200"]
-
+    ```
 1. foo 
-
+    ```
     ["http://elasticsearch-master.default.svc.cluster.local:9200"]
-
+    ```
 
 #### ELASTICSEARCH_PASSWORD
 
