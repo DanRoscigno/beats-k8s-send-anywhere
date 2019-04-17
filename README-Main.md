@@ -18,12 +18,14 @@ I added an ingress that preserves source IPs and added ConfigMaps for the Apache
 ```
 kubectl create -f guestbook.yaml 
 ```
-Verify the external IP is assigned
+
+Port-forward port 8080:
 
 ```
-kubectl get service frontend -w
+sudo kubectl port-forward service/frontend 80
 ```
-Once the external IP address is assigned you can type CTRL-C to stop watching for changes and get the command prompt back (the -w is "watch for changes")
+
+Open a browser to http://localhost:8080 and make some entries in the sample application.
 
 # Deploy the Elastic Beats
 ```
@@ -34,6 +36,13 @@ kubectl create -f packetbeat-kubernetes.yaml
 
 # View in Kibana
 
+## If Kibana is running in Kubernetes, then port-froward
+If you are using the Elastic Kibana Helm Chart, then find your Kibana service and port-forward:
+```
+kubectl port-forward deployment/kibana-kibana 5601
+```
+
+## If Kibana is running elsewhere, open the Kibana URL
 Open your Kibana URL and look under the Dashboard link, verify that the Apache and Redis dashboards are populating.
 
 # Scale your deployments and see new pods being monitored
