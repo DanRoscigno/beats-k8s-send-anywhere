@@ -37,17 +37,17 @@ elastic
 
 ## KIBANA_HOST
 
-1. The Kibana instance from the Elastic Kibana Helm Chart: 
+1. The Kibana instance from the Elastic Kibana Helm Chart.  The subdomain `default` refers to the default namespace.  If you have deployed the Helm Chart using a different namespace, then your subdomain will be different: 
     ```
-    "http://kibana-kibana.default.svc.cluster.local:5601"
+    "kibana-kibana.default.svc.cluster.local:5601"
     ```
 1. A Kibana instance running on a Mac where your Beats are running in Docker for Mac: 
     ```
-    "http://host.docker.internal:5601"
+    "host.docker.internal:5601"
     ```
 1. Two Elasticsearch nodes running in VMs or on physical hardware:
     ```
-    "http://host1.example.com:5601"
+    "host1.example.com:5601"
     ```
 
 # Edit the required files:
