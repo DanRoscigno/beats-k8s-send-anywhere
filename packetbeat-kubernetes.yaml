@@ -44,9 +44,9 @@ data:
           - ip_port:
           matchers:
           - field_format:
-              #format: '%{[ip]}:%{[port]}'
+              format: '%{[ip]}:%{[port]}'
               # with version 7 of Packetbeat use the following line instead of the one above.
-              format: '%{[destination.ip]}:%{[destination.port]}'
+              #format: '%{[destination.ip]}:%{[destination.port]}'
 
     cloud.auth: ${ELASTIC_CLOUD_AUTH}
     cloud.id: ${ELASTIC_CLOUD_ID}
@@ -80,7 +80,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
       - name: packetbeat-dynamic
-        image: docker.elastic.co/beats/packetbeat:7.0.0
+        image: docker.elastic.co/beats/packetbeat:6.7.1
         imagePullPolicy: Always
         args: [
           "-c", "/etc/packetbeat.yml",

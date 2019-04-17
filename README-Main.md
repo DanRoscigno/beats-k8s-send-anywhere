@@ -13,19 +13,28 @@ kubectl get pods --namespace=kube-system | grep kube-state
 # Deploy the Guestbook example
 Note: This is mostly the default Guestbook example from https://github.com/kubernetes/examples/blob/master/guestbook/all-in-one/guestbook-all-in-one.yaml
 
-I added an ingress that preserves source IPs and added ConfigMaps for the Apache2 and Mod-Status configs so that I could block the /server-status endpoint from outside the internal network (actually apache2.conf is unedited, but I may need it later).  I also added a redis.conf to set the slowlog time criteria.
+We added an ingress that preserves source IPs and added ConfigMaps for the Apache2 and Mod-Status configs so that we could block the /server-status endpoint from outside the internal network.  We also added a redis.conf to set the slowlog time criteria.
 
 ```
 kubectl create -f guestbook.yaml 
 ```
 
-Port-forward port 8080:
+## Wait for the application to start
+```
+kubectl get pods -w
+```
+
+Port-forward port 80:
 
 ```
 sudo kubectl port-forward service/frontend 80
 ```
 
-Open a browser to http://localhost:8080 and make some entries in the sample application.
+## Generate some traffic
+Open a browser to http://localhost/ and make some entries in the sample application.
+
+## Generate some errors
+Open a browser to http://localhost/foo (this will return page not found)
 
 # Deploy the Elastic Beats
 ```
