@@ -46,10 +46,15 @@ data:
           - field_format:
               format: '%{[ip]}:%{[port]}'
 
-    cloud.auth: elastic:${ELASTIC_PASSWORD}
-    cloud.id: ${CLOUD_ID}
+    cloud.auth: ${ELASTIC_CLOUD_AUTH}
+    cloud.id: ${ELASTIC_CLOUD_ID}
 
     output.elasticsearch:
+      hosts: ${ELASTICSEARCH_HOSTS}
+      username: ${ELASTICSEARCH_USERNAME}
+      password: ${ELASTICSEARCH_PASSWORD}
+    setup.kibana:
+      host: ${KIBANA_HOST}
 
 ---
 apiVersion: extensions/v1beta1
@@ -72,7 +77,7 @@ spec:
       hostNetwork: true
       containers:
       - name: packetbeat-dynamic
-        image: docker.elastic.co/beats/packetbeat:7.0.0
+        image: docker.elastic.co/beats/packetbeat:6.5.4
         imagePullPolicy: Always
         args: [
           "-c", "/etc/packetbeat.yml",
@@ -84,17 +89,41 @@ spec:
             add:
             - NET_ADMIN
         env:
-        - name: CLOUD_ID
+        - name: ELASTIC_CLOUD_ID
           valueFrom:
             secretKeyRef:
               name: dynamic-logging
-              key: CLOUD_ID
+              key: ELASTIC_CLOUD_ID
               optional: true
-        - name: ELASTIC_PASSWORD
+        - name: ELASTIC_CLOUD_AUTH
           valueFrom:
             secretKeyRef:
               name: dynamic-logging
-              key: ELASTIC_PASSWORD
+              key: ELASTIC_CLOUD_AUTH
+              optional: true
+        - name: ELASTICSEARCH_HOSTS
+          valueFrom:
+            secretKeyRef:
+              name: dynamic-logging
+              key: ELASTICSEARCH_HOSTS
+              optional: true
+        - name: KIBANA_HOST
+          valueFrom:
+            secretKeyRef:
+              name: dynamic-logging
+              key: KIBANA_HOST
+              optional: true
+        - name: ELASTICSEARCH_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: dynamic-logging
+              key: ELASTICSEARCH_USERNAME
+              optional: true
+        - name: ELASTICSEARCH_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: dynamic-logging
+              key: ELASTICSEARCH_PASSWORD
               optional: true
         volumeMounts:
         - name: config
