@@ -50,5 +50,5 @@ Decide if you will use the managed service, Elasticsearch Service in Elastic Clo
 Set the credentials and create the Kubernetes secret as detailed in [README-Cloud.md](README-Cloud.md)
 
 ### Self managed: 
-Deploy in k8s via Helm Charts, or downloaded files running on servers, or running on your own workstation.  Set the credentials and create the Kubernetes secret as detailed in README-Self-Managed.md
+Deploy in k8s via Helm Charts, or downloaded files running on servers, or running on your own workstation.  Set the credentials and create the Kubernetes secret as detailed in [README-Self-Managed.md](README-Self-Managed.md)
 

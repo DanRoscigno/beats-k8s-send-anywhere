@@ -72,4 +72,4 @@ This command creates a secret in the Kubernetes system level namespace (kube-sys
       --namespace=kube-system
 
 # Continue with the install
-Open README-Main.md and complete the tutorial
+Open [README-Main.md](README-Main.md) and complete the tutorial
