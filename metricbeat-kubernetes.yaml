@@ -17,12 +17,15 @@ data:
       index.number_of_shards: 1
       index.codec: best_compression
 
-    cloud.auth: elastic:${ELASTIC_PASSWORD}
-    cloud.id: ${CLOUD_ID}
-    
-    output.elasticsearch:
+    cloud.auth: ${ELASTIC_CLOUD_AUTH}
+    cloud.id: ${ELASTIC_CLOUD_ID}
 
+    output.elasticsearch:
+      hosts: ${ELASTICSEARCH_HOSTS}
+      username: ${ELASTICSEARCH_USERNAME}
+      password: ${ELASTICSEARCH_PASSWORD}
     setup.kibana:
+      host: ${KIBANA_HOST}
 ---
 # Run metricbeat setup
 apiVersion: batch/v1
@@ -38,7 +41,7 @@ spec:
       containers:
       - name: metricbeat-setup
         #imagePullPolicy: Always
-        image: docker.elastic.co/beats/metricbeat:7.0.0
+        image: docker.elastic.co/beats/metricbeat:6.7.1
         args: [
           "-c", "/etc/metricbeat.yml",
           "-e",
@@ -49,17 +52,41 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
-        - name: CLOUD_ID
+        - name: ELASTIC_CLOUD_ID
           valueFrom:
             secretKeyRef:
               name: dynamic-logging
-              key: CLOUD_ID
+              key: ELASTIC_CLOUD_ID
               optional: true
-        - name: ELASTIC_PASSWORD
+        - name: ELASTIC_CLOUD_AUTH
           valueFrom:
             secretKeyRef:
               name: dynamic-logging
-              key: ELASTIC_PASSWORD
+              key: ELASTIC_CLOUD_AUTH
+              optional: true
+        - name: ELASTICSEARCH_HOSTS
+          valueFrom:
+            secretKeyRef:
+              name: dynamic-logging
+              key: ELASTICSEARCH_HOSTS
+              optional: true
+        - name: KIBANA_HOST
+          valueFrom:
+            secretKeyRef:
+              name: dynamic-logging
+              key: KIBANA_HOST
+              optional: true
+        - name: ELASTICSEARCH_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: dynamic-logging
+              key: ELASTICSEARCH_USERNAME
+              optional: true
+        - name: ELASTICSEARCH_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: dynamic-logging
+              key: ELASTICSEARCH_PASSWORD
               optional: true
         securityContext:
           runAsUser: 0
@@ -130,13 +157,15 @@ data:
     processors:
       - add_cloud_metadata:
 
+    cloud.auth: ${ELASTIC_CLOUD_AUTH}
     cloud.id: ${ELASTIC_CLOUD_ID}
-    cloud.auth: elastic:${ELASTIC_CLOUD_AUTH}
 
     output.elasticsearch:
-      hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
+      hosts: ${ELASTICSEARCH_HOSTS}
       username: ${ELASTICSEARCH_USERNAME}
       password: ${ELASTICSEARCH_PASSWORD}
+    setup.kibana:
+      host: ${KIBANA_HOST}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -232,25 +261,41 @@ spec:
           "-system.hostfs=/hostfs",
         ]
         env:
-        - name: ELASTICSEARCH_HOST
-          value: elasticsearch
-        - name: ELASTICSEARCH_PORT
-          value: "9200"
-        - name: ELASTICSEARCH_USERNAME
-          value: elastic
-        - name: ELASTICSEARCH_PASSWORD
-          value: changeme
         - name: ELASTIC_CLOUD_ID
           valueFrom:
             secretKeyRef:
               name: dynamic-logging
-              key: CLOUD_ID
+              key: ELASTIC_CLOUD_ID
               optional: true
         - name: ELASTIC_CLOUD_AUTH
           valueFrom:
             secretKeyRef:
               name: dynamic-logging
-              key: ELASTIC_PASSWORD
+              key: ELASTIC_CLOUD_AUTH
+              optional: true
+        - name: ELASTICSEARCH_HOSTS
+          valueFrom:
+            secretKeyRef:
+              name: dynamic-logging
+              key: ELASTICSEARCH_HOSTS
+              optional: true
+        - name: KIBANA_HOST
+          valueFrom:
+            secretKeyRef:
+              name: dynamic-logging
+              key: KIBANA_HOST
+              optional: true
+        - name: ELASTICSEARCH_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: dynamic-logging
+              key: ELASTICSEARCH_USERNAME
+              optional: true
+        - name: ELASTICSEARCH_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: dynamic-logging
+              key: ELASTICSEARCH_PASSWORD
               optional: true
         - name: NODE_NAME
           valueFrom:
@@ -321,13 +366,15 @@ data:
     processors:
       - add_cloud_metadata:
 
+    cloud.auth: ${ELASTIC_CLOUD_AUTH}
     cloud.id: ${ELASTIC_CLOUD_ID}
-    cloud.auth: elastic:${ELASTIC_CLOUD_AUTH}
 
     output.elasticsearch:
-      hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
+      hosts: ${ELASTICSEARCH_HOSTS}
       username: ${ELASTICSEARCH_USERNAME}
       password: ${ELASTICSEARCH_PASSWORD}
+    setup.kibana:
+      host: ${KIBANA_HOST}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -377,25 +424,41 @@ spec:
           "-e",
         ]
         env:
-        - name: ELASTICSEARCH_HOST
-          value: elasticsearch
-        - name: ELASTICSEARCH_PORT
-          value: "9200"
-        - name: ELASTICSEARCH_USERNAME
-          value: elastic
-        - name: ELASTICSEARCH_PASSWORD
-          value: changeme
         - name: ELASTIC_CLOUD_ID
           valueFrom:
             secretKeyRef:
               name: dynamic-logging
-              key: CLOUD_ID
+              key: ELASTIC_CLOUD_ID
               optional: true
         - name: ELASTIC_CLOUD_AUTH
           valueFrom:
             secretKeyRef:
               name: dynamic-logging
-              key: ELASTIC_PASSWORD
+              key: ELASTIC_CLOUD_AUTH
+              optional: true
+        - name: ELASTICSEARCH_HOSTS
+          valueFrom:
+            secretKeyRef:
+              name: dynamic-logging
+              key: ELASTICSEARCH_HOSTS
+              optional: true
+        - name: KIBANA_HOST
+          valueFrom:
+            secretKeyRef:
+              name: dynamic-logging
+              key: KIBANA_HOST
+              optional: true
+        - name: ELASTICSEARCH_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: dynamic-logging
+              key: ELASTICSEARCH_USERNAME
+              optional: true
+        - name: ELASTICSEARCH_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: dynamic-logging
+              key: ELASTICSEARCH_PASSWORD
               optional: true
         - name: NODE_NAME
           valueFrom:
