@@ -1,114 +1,34 @@
-### Create an Elastic Cloud deployment
-You can use Elastic Cloud ( http://cloud.elastic.co ), or a local deployment.  whichever you choose, https://elastic.co/start will get you started.
+# Set the credentials
+There are four files to edit to create a k8s secret when you are connecting to the managed Elasticsearch Service in Elastic Cloud.  The files are: 
 
-If this is your first experience with the Elastic stack I would recommend Elastic Cloud; and don't worry, you do not need a credit card.
+1. ELASTIC_CLOUD_AUTH
+1. ELASTIC_CLOUD_ID
 
-Make sure that you take note of the CLOUD ID and Elastic Password if you use Elastic Cloud or Elastic Cloud Enterprise.
+Set these with the information provided to you from the Elasticsearch Service console when you created the deployment.  Here are some examples:
 
-### Authorization
-Create a cluster level role binding so that you can manipulate the system level namespace
-
+## ELASTIC_CLOUD_ID
 ```
-kubectl create clusterrolebinding cluster-admin-binding \
- --clusterrole=cluster-admin --user=<your email associated with the Cloud provider account>
+devk8s:ABC123def456ghi789jkl123mno456pqr789stu123vwx456yza789bcd012efg345hijj678klm901nop345zEwOTJjMTc5YWQ0YzQ5OThlN2U5MjAwYTg4NTIzZQ==
 ```
 
-### Clone the YAML files
-Either clone the entire Elastic examples repo or use the wget commands in download.txt:
-
+## ELASTIC_CLOUD_AUTH
+Just the username, a colon (`:`), and the password, no whitespace or quotes:
 ```
-mkdir MonitoringKubernetes
-cd MonitoringKubernetes
-wget https://raw.githubusercontent.com/elastic/examples/master/MonitoringKubernetes/download.txt
-sh download.txt
+elastic:VFxJJf9Tjwer90wnfTghsn8w
 ```
 
-OR
-
+# Edit the required files:
 ```
-git clone https://github.com/elastic/examples.git
-cd examples/MonitoringKubernetes
-```
-### Set the credentials
-Set these with the values from the http://cloud.elastic.co deployment
-
-```
-vi ELASTIC_CLOUD_ID 
+vi ELASTIC_CLOUD_ID
 vi ELASTIC_CLOUD_AUTH
 ```
-and create a secret in the Kubernetes system level namespace
+# Create a Kubernetes secret
+This command creates a secret in the Kubernetes system level namespace (kube-system) based on the files you just edited:
 
-```
-kubectl create secret generic dynamic-logging \
-  --from-file=./ELASTIC_CLOUD_AUTH \
-  --from-file=./ELASTIC_CLOUD_ID \
-  --namespace=kube-system
-```
+    ```
+    kubectl create secret generic dynamic-logging \
+      --from-file=./ELASTIC_CLOUD_ID \
+      --from-file=./ELASTIC_CLOUD_AUTH \
+      --namespace=kube-system
+    ```
 
-### Check to see if kube-state-metrics is running
-```
-kubectl get pods --namespace=kube-system | grep kube-state
-```
-and create it if needed (by default it will not be there)
-
-```
-git clone https://github.com/kubernetes/kube-state-metrics.git kube-state-metrics
-kubectl create -f kube-state-metrics/kubernetes
-kubectl get pods --namespace=kube-system | grep kube-state 
-```
-
-### Deploy the Guestbook example
-Note: This is mostly the default Guestbook example from https://github.com/kubernetes/examples/blob/master/guestbook/all-in-one/guestbook-all-in-one.yaml
-
-I added an ingress that preserves source IPs and added ConfigMaps for the Apache2 and Mod-Status configs so that I could block the /server-status endpoint from outside the internal network (actually apache2.conf is unedited, but I may need it later).  I also added a redis.conf to set the slowlog time criteria.
-
-```
-kubectl create -f guestbook.yaml 
-```
-Verify the external IP is assigned
-
-```
-kubectl get service frontend -w
-```
-Once the external IP address is assigned you can type CTRL-C to stop watching for changes and get the command prompt back (the -w is "watch for changes")
-
-### Deploy the Elastic Beats
-```
-kubectl create -f filebeat-kubernetes.yaml 
-kubectl create -f metricbeat-kubernetes.yaml 
-kubectl create -f packetbeat-kubernetes.yaml 
-```
-
-### View in Kibana
-
-Open your Kibana URL and look under the Dashboard link, verify that the Apache and Redis dashboards are populating.
-
-### Scale your deployments and see new pods being monitored
-List the existing deployments:
-```
-kubectl get deployments
-
-NAME           DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-frontend       3         3         3            3           3m
-redis-master   1         1         1            1           3m
-redis-slave    2         2         2            2           3m
-```
-
-Scale the frontend down to two pods:
-```
-kubectl scale --replicas=2 deployment/frontend
-
-deployment "frontend" scaled
-```
-
-Check the frontend deployment:
-```
-kubectl get deployment frontend
-
-NAME       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-frontend   2         2         2            2           5m
-```
-
-### View the changes in Kibana
-See the screenshot, add the indicated filters and then add the columns to the view.  You can see the ScalingReplicaSet entry that is marked, following from there to the top of the list of events shows the image being pulled, the volumes mounted, the pod starting, etc.
-![Kibana Discover](https://raw.githubusercontent.com/elastic/examples/master/MonitoringKubernetes/scaling-discover.png)
