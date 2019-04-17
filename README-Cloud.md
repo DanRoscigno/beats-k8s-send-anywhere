@@ -1,5 +1,11 @@
+# Create an Elastic Cloud deployment
+
+Visit https://cloud.elastic.co and sign up for a free trial, or sign in to your account.  Create a deployment.
+
+Make sure that you take note of the CLOUD ID and Elastic Password.
+
 # Set the credentials
-There are four files to edit to create a k8s secret when you are connecting to the managed Elasticsearch Service in Elastic Cloud.  The files are: 
+There are two files to edit to create a k8s secret when you are connecting to the managed Elasticsearch Service in Elastic Cloud.  The files are: 
 
 1. ELASTIC_CLOUD_AUTH
 1. ELASTIC_CLOUD_ID
@@ -30,3 +36,5 @@ This command creates a secret in the Kubernetes system level namespace (kube-sys
       --from-file=./ELASTIC_CLOUD_AUTH \
       --namespace=kube-system
 
+# Continue with the install
+Open README-Main.md and complete the tutorial

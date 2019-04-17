@@ -1,3 +1,7 @@
+# Create an Elasticsearch cluster and install Kibana
+
+You can use the [Elastic Helm Charts](https://github.com/elastic/helm-charts), or a [local deployment](https://www.elastic.co/guide/en/elastic-stack/current/installing-elastic-stack.html).  
+
 # Set the credentials
 There are four files to edit to create a k8s secret when you are connectign to self managed Elasticsearch and Kibana (self managed is effectively anything other than the managed Elasticsearch Service in Elastic Cloud).  The files are:
 
@@ -67,3 +71,5 @@ This command creates a secret in the Kubernetes system level namespace (kube-sys
       --from-file=./KIBANA_HOST \
       --namespace=kube-system
 
+# Continue with the install
+Open README-Main.md and complete the tutorial
