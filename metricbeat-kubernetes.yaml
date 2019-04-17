@@ -41,7 +41,7 @@ spec:
       containers:
       - name: metricbeat-setup
         #imagePullPolicy: Always
-        image: docker.elastic.co/beats/metricbeat:6.7.1
+        image: docker.elastic.co/beats/metricbeat:7.0.0
         args: [
           "-c", "/etc/metricbeat.yml",
           "-e",
@@ -242,7 +242,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
       - name: metricbeat
-        image: docker.elastic.co/beats/metricbeat:6.7.1
+        image: docker.elastic.co/beats/metricbeat:7.0.0
         args: [
           "-c", "/etc/metricbeat.yml",
           "-e",
@@ -406,7 +406,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
       - name: metricbeat
-        image: docker.elastic.co/beats/metricbeat:6.7.1
+        image: docker.elastic.co/beats/metricbeat:7.0.0
         args: [
           "-c", "/etc/metricbeat.yml",
           "-e",
