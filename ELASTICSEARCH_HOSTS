@@ -1,1 +1,1 @@
-["elasticsearch-master.default.svc.cluster.local:9200"]
+["http://elasticsearch-master.default.svc.cluster.local:9200"]
