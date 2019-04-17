@@ -47,7 +47,7 @@ At this point you will need to have the URL(s) and credentials for an existing E
 Decide if you will use the managed service, Elasticsearch Service in Elastic Cloud, or use self managed Elasticsearch and Kibana either in your Kubernetes cluster (with the Elastic Helm Charts), or outside of your Kubernetes Cluster with files from the Elastic download page.  You can use any of these three methods, and the Beats will send data to any of them.
 
 ### Managed service: 
-Set the credentials and create the Kubernetes secret as detailed in [README-Cloud.md](blob/master/README-Cloud.md)
+Set the credentials and create the Kubernetes secret as detailed in [README-Cloud.md](README-Cloud.md)
 
 ### Self managed: 
 Deploy in k8s via Helm Charts, or downloaded files running on servers, or running on your own workstation.  Set the credentials and create the Kubernetes secret as detailed in README-Self-Managed.md
