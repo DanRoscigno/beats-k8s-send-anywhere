@@ -20,16 +20,16 @@ Create a cluster level role binding so that you can manipulate the system level 
 
 ```
 kubectl create clusterrolebinding cluster-admin-binding \
- --clusterrole=cluster-admin --user=<your email associated with the Cloud provider account>
+ --clusterrole=cluster-admin --user=<your email associated with the k8s provider account>
 ```
 
 # Clone the YAML files
 Either clone the entire Elastic examples repo or use the wget commands in download.txt:
 
 ```
-mkdir MonitoringKubernetes
-cd MonitoringKubernetes
-wget https://raw.githubusercontent.com/elastic/examples/master/MonitoringKubernetes/download.txt
+mkdir beats-k8s-send-anywhere
+cd beats-k8s-send-anywhere
+wget https://raw.githubusercontent.com/elastic/examples/master/beats-k8s-send-anywhere/download.txt
 sh download.txt
 ```
 
@@ -37,7 +37,7 @@ OR
 
 ```
 git clone https://github.com/elastic/examples.git
-cd examples/MonitoringKubernetes
+cd examples/beats-k8s-send-anywhere
 ```
 
 # Elasticsearch and Kibana
