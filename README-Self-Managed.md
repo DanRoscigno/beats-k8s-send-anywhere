@@ -60,12 +60,10 @@ vi KIBANA_HOST
 # Create a Kubernetes secret
 This command creates a secret in the Kubernetes system level namespace (kube-system) based on the files you just edited:
 
-    ```
     kubectl create secret generic dynamic-logging \
       --from-file=./ELASTICSEARCH_HOSTS \
       --from-file=./ELASTICSEARCH_PASSWORD \
       --from-file=./ELASTICSEARCH_USERNAME \
       --from-file=./KIBANA_HOST \
       --namespace=kube-system
-    ```
 

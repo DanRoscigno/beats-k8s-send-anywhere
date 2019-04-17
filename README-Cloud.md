@@ -25,10 +25,8 @@ vi ELASTIC_CLOUD_AUTH
 # Create a Kubernetes secret
 This command creates a secret in the Kubernetes system level namespace (kube-system) based on the files you just edited:
 
-    ```
     kubectl create secret generic dynamic-logging \
       --from-file=./ELASTIC_CLOUD_ID \
       --from-file=./ELASTIC_CLOUD_AUTH \
       --namespace=kube-system
-    ```
 
