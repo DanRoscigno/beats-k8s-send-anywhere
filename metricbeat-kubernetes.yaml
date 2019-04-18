@@ -151,7 +151,7 @@ data:
                   period: 10s
 
                   # Apache hosts
-                  hosts: ["http://${data.host}:80"]
+                  hosts: ["http://${data.host}:${data.port}"]
 
 
     processors:
