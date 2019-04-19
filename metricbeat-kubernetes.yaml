@@ -130,8 +130,9 @@ data:
 
     metricbeat.autodiscover:
       providers:
+
         - type: kubernetes
-          host: ${HOSTNAME}
+          host: ${NODE_NAME}
           templates:
             - condition.equals:
                 kubernetes.labels.tier: backend
@@ -141,7 +142,7 @@ data:
                   period: 10s
 
                   # Redis hosts
-                  hosts: ["${data.host}:6379"]
+                  hosts: ["${data.host}:${data.port}"]
 
             - condition.equals:
                 kubernetes.labels.tier: frontend
