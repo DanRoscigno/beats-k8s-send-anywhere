@@ -28,7 +28,7 @@ data:
       providers:
         - type: kubernetes
           templates:
-            - condition.contains:
+            - condition.equals:
                 kubernetes.labels.app: redis
               config:
                 - module: redis
